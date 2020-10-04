@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -46,50 +46,50 @@
      inkscape:window-height="1001"
      id="namedview20"
      showgrid="false"
-     inkscape:zoom="1.636051"
-     inkscape:cx="250.63905"
-     inkscape:cy="190.4678"
+     inkscape:zoom="0.8180255"
+     inkscape:cx="269.46569"
+     inkscape:cy="111.68275"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg18" />
+     inkscape:current-layer="layer1" />
   <path
-     d="M 108.43255,228.54833 381.91747,151.50993 279.58201,97.124935 50.65848,143.74657 Z"
+     d="M 93.76308,265.222 367.248,188.1836 264.91254,133.79861 35.98901,180.42024 Z"
      id="path2"
      style="fill-opacity:0;stroke:#000000;stroke-width:1.01093376;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 108.43255,228.54833 53.89746,-68.78851 98.80811,-23.35829 120.77935,15.1084"
+     d="M 93.76308,265.222 147.66054,196.43349 246.46865,173.0752 367.248,188.1836"
      id="path4"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="m 259.79297,160.59189 122.1245,-9.08196"
+     d="M 245.1235,197.26556 367.248,188.1836"
      id="path6"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:6.06560227, 6.06560227;stroke-dashoffset:0"
      inkscape:connector-curvature="0" />
   <path
-     d="M 163.01845,185.59652 50.65848,143.74657"
+     d="M 148.34898,222.27019 35.98901,180.42024"
      id="path8"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:6.06560227, 6.06560227;stroke-dashoffset:0"
      inkscape:connector-curvature="0" />
   <path
-     d="M 259.79297,160.59189 279.58201,97.124935"
+     d="m 245.1235,197.26556 19.78904,-63.46695"
      id="path10"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:6.06560227, 6.06560227;stroke-dashoffset:0"
      inkscape:connector-curvature="0" />
   <path
-     d="m 108.43255,228.54833 54.5859,-42.95181 96.77452,-25.00463"
+     d="m 93.76308,265.222 54.5859,-42.95181 96.77452,-25.00463"
      id="path12"
-     style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50550001;stroke-miterlimit:4;stroke-dasharray:6.06600012,6.06600012;stroke-dashoffset:0"
+     style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50550002;stroke-miterlimit:4;stroke-dasharray:6.06600012, 6.06600012;stroke-dashoffset:0"
      inkscape:connector-curvature="0" />
   <path
-     d="M 261.13812,136.40153 279.58201,97.124935"
+     d="m 246.46865,173.0752 18.44389,-39.27659"
      id="path14"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
   <path
-     d="M 162.33001,159.75982 50.65848,143.74657"
+     d="M 147.66054,196.43349 35.98901,180.42024"
      id="path16"
      style="fill-opacity:0;stroke:#ff0000;stroke-width:0.50546688;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
@@ -100,19 +100,19 @@
      transform="translate(0,-312.00001)">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.21867371px;line-height:1.25;font-family:Gabriola;-inkscape-font-specification:'Gabriola, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.50546688"
-       x="118.58329"
-       y="384.55527"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22px;line-height:1.25;font-family:'Century Schoolbook';-inkscape-font-specification:'Century Schoolbook, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.50546688"
+       x="197.89012"
+       y="356.13318"
        id="text837"><tspan
          sodipodi:role="line"
          id="tspan839"
-         x="118.58329"
-         y="384.55527"
-         style="stroke-width:0.50546688">Grasshopper plugin:</tspan><tspan
+         x="197.89012"
+         y="356.13318"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22px;font-family:'Century Schoolbook';-inkscape-font-specification:'Century Schoolbook, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.50546688">Grasshopper plugin:</tspan><tspan
          sodipodi:role="line"
          id="tspan841"
-         x="118.58329"
-         y="409.82861"
-         style="stroke-width:0.50546688">Computer Aided Yield Line Analysis</tspan></text>
+         x="197.89012"
+         y="383.63318"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22px;font-family:'Century Schoolbook';-inkscape-font-specification:'Century Schoolbook, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.50546688">Computer Aided Yield Line Analysis</tspan></text>
   </g>
 </svg>
