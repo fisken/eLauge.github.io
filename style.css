@@ -69,3 +69,26 @@ a:hover{
     font-weight: bold;
 }
 
+.BoxSystem{  
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.BoxItem{
+    display: block;
+    background-color: white;
+    margin: 0px;
+    padding: 0px;
+    height: 200px;
+    width: 300;
+    border: 1px solid gray;
+    transition: transform .2s;
+
+}
+
+.BoxItem:hover{
+    border: 1px solid black;
+    transform: scale(1.01);
+}
