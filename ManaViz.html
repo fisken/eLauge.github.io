@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manatee</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="nav-placeholder">
+        </div>
+        <div class="content">   
+            <p id="Content-heading">ManaViz</p>   
+            <p>
+                For my ongoing master thesis i am writing about the use of data visualization for taking informed decisions in the early design phase. For conducting the case studies i have develop the plugin ManaViz.
+            </p>     
+            <p>Features:</p>
+            <ul>
+                <li>Visualize structural results generated with Karamba3d</li>
+            </ul>
+            <p>The following video shows the plugin in action:</p>
+            <video id="example_video_2" class="video-js vjs-default-skin" controls preload="none" width="100%" height="auto" data-setup="{}" poster="ManaVizPoster.png">
+                <source src="ManaVizDemo.mp4" type="video/mp4">
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+            </video>
+        </div>      
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#nav-placeholder').load("navbar.html");
+        });
+    </script>
+
+</body>
+</html>
