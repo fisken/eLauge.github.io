@@ -1,0 +1,77 @@
+
+.grid-stack-item-content{
+    border: 1px gray;
+    border-style: dashed;
+    overflow: hidden !important;
+}
+
+.draghandle{
+    height: 15px;
+    cursor: grabbing;
+}
+
+.dropdowntest{
+    -webkit-appearance: none;
+    width: 50px;
+    border: 0px solid #ccc;
+
+}
+
+.xLabel{
+    font-size:12px;
+}
+
+.yLabel{
+    font-size:12px;
+}
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/* CONTEXT MENU */
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+#ctxMenu{
+    display:none;
+    z-index:100;
+}
+#notepad{
+    position:absolute;
+    left:25%;
+    top:10%;
+    width:300px;
+    height:300px;
+    background-color:red;
+}
+menu {
+    position:absolute;
+    display:block;
+    left:0px;
+    top:0px;
+    height:20px;
+    width:20px;
+    padding:0;
+    margin:0;
+    border:1px solid;
+    background-color:white;
+    font-weight:normal;
+    white-space:nowrap;
+}
+menu:hover{
+    background-color:#eef;
+    font-weight:bold;
+}
+menu:hover > menu{
+    display:block;
+}
+menu > menu{
+    display:none;
+    position:relative;
+    top:-20px;
+    left:100%;
+    width:55px;
+}
+menu[title]:before{
+    content:attr(title);
+}
+menu:not([title]):before{
+    content:"\2630";
+}

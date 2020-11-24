@@ -1,0 +1,3 @@
+class BarChart extends IPlot{
+    
+}

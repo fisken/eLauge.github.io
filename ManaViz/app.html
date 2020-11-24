@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@2.0.2/dist/gridstack.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gridstack@2.0.2/dist/gridstack.all.js"></script>
+    <script src="IPlot.js"></script>
+    <script src="BarChart.js"></script>
+    <script src="ScatterPlotBars.js"></script>
+    <script src="LoadPathChart.js"></script>
+    <script src="ViolinChart.js"></script>
+    <script src="BarChartModel.js"></script>
+    <script src="ScatterPlotNodes.js"></script>
+    <script src="ScatterPlotPanels.js"></script>
+    <script type="module" src="ManaVizModel.js"></script>
+</head>
+<body> 
+    
+    <div id="buttons">
+        <button onclick="AddButtonClicked()">Add</button>
+        <button onclick="ResetButtonClicked()">Reset</button>
+    </div>
+
+    <div class="grid-stack">
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2">
+            <div class="draghandle"></div>
+            <div class="grid-stack-item-content">
+                <canvas id="view3d"></canvas>
+            </div>
+        </div>
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2">  
+            <div class="draghandle"></div>
+            <div id="plot1" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot2" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot3" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot4" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot5" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot6" class="grid-stack-item-content">
+            </div>
+        </div> 
+    </div>
+
+
+    <script>
+        var createRadioButtons = function(){
+            for (var i = 0; i < mydata.length; i++) {
+                const radioButton = document.createElement("input");
+                radioButton.type = "checkbox";
+                radioButton.name = "Model "+i;
+                radioButton.id = "Model "+i;
+                radioButton.value = "Model";
+                radioButton.checked = true;
+                radioButton.onclick = function(){MyTestFunction(this,this.id[6])};
+                const label = document.createElement("label");
+                label.htmlFor = "Model "+i;
+                label.innerHTML = "Model "+i;
+                document.getElementById("buttons").appendChild(radioButton)
+                document.getElementById("buttons").appendChild(label)
+            }
+        }
+        // LEG MED AT KUNNE LAVE RADIO BUTTONS FRA SCRIPT
+        //const radioModel = document.createElement("input");
+        //yForceMenu.title = "yForce";
+
+        // Checkbox function
+        // This is run when a checkbox is clicked
+        var MyTestFunction = function(chbx,num){
+            // If the checbox is checked then activate corresponding dataset
+            console.log(chbx);
+            if (chbx.checked==true){
+                console.log(num)
+                mydata[num].active = true;
+            }
+            // Else deactive
+            else {
+                //console.log(mydata)
+                console.log(num)
+                mydata[num].active = false;
+            }
+           // Update everything afterwards
+            updateEverything();
+        }
+
+         // Loading the datafile and storing it in dataset
+         // Obs på her om dataen når at loads før man gør ting og sager
+         d3.json("ManaVizData.json").then(function(data) {
+            mydata = data;
+            if (isInitializePlotReady == true){
+                initializePlot();
+            }
+            else{
+                console.log("initialize plot function is not ready")
+            }
+            //drawlines();
+            //renderer.render(scene,camera);
+
+            plots.push(new ScatterPlotBars({elementId: "plot1", dataset:mydata}));
+            plots.push(new LoadPathChart({elementId: "plot2", dataset:mydata}));
+            plots.push(new ViolinChart({elementId: "plot3", dataset:mydata}));
+            plots.push(new BarChartModel({elementId: "plot4", dataset:mydata}));
+            plots.push(new ScatterPlotNodes({elementId: "plot5", dataset:mydata}));
+            plots.push(new ScatterPlotPanels({elementId: "plot6", dataset:mydata}));
+
+            
+
+            updateEverything();
+            createRadioButtons();
+        });
+        
+        /////////////// THE GLOBAL COLOR SCHEME ///////////////////////
+        colors = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"];
+
+        // Define a global variable to hold ALL the plots
+        // Used when every plots need an update
+        var plots = [];
+
+       
+        /////////////////////////////////
+        ///////      ThreeJS    /////////
+        /////////////////////////////////
+
+        // Function to set the proper size of the renderer
+        //function resizeCanvasToDisplaySize() {
+        //    const canvas = renderer.domElement;
+            // look up the size the canvas is being displayed
+
+        //    const width = canvas.parentElement.offsetWidth;
+        //    const height = canvas.parentElement.offsetHeight;
+
+            // adjust displayBuffer size to match
+        //    if (canvas.width !== width || canvas.height !== height) {
+        //        renderer.setSize(width, height);
+                //camera.aspect = width / height; // This is used for perspective camera 
+        //        camera.left = -width/height; // This is for orthographic camera
+        //        camera.right = width/height; // This is for orthographic camera
+        //        camera.updateProjectionMatrix();
+        //    }
+        //}
+
+        // Define new scene
+        //var scene = new THREE.Scene();
+        
+        // Definie a new camera
+        // Should probably use the OrthographicCamera insted 
+        //var camera = new THREE.PerspectiveCamera( 75, 0.5*window.innerWidth/300, 0.1, 1000 );
+        //var camera = new THREE.OrthographicCamera( -1,1,1,-1,0.1,1000 );
+        //camera.zoom = 0.1;
+    
+        // Set camera position
+        // If perspectivecamera, then this should probably be reduced
+        //camera.position.z = 100;
+
+        // Define a new renderer
+        //const canvas = document.getElementById("view3d");
+        //var renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+        
+        // Set the backgroundcolor of the renderer
+        //renderer.setClearColor("white");
+
+        // This makes the lines more sharp if scale with 1.5
+        //renderer.setPixelRatio(window.devicePixelRatio*1.0);
+
+        // Set the size of the renderer
+        //renderer.setSize( window.innerWidth*0.5, 300 );
+
+        
+
+        // Define the DOM to which the renderer should do its magic
+        //document.getElementById("view3d").appendChild( renderer.domElement );
+
+        // Initialize a group to hold a group for every gridshell
+        //var gridshellGroups = new THREE.Group(); 
+
+        // Material for not selected lines
+        //var linemat = new THREE.LineBasicMaterial({
+        //    color: "black",
+        //    linewidth: 5, // will alway be 1 due to openGL
+            //linecap: "round",
+            //linejoin: "round"
+        //});
+
+        // Material for the selected lines
+        //var linematSelected = new THREE.LineBasicMaterial({
+        //    color: "red",
+        //    linewidth: 1, // will alway be 1 due to openGL
+        //    linecap: "round",
+        //    linejoin: "round"
+        //});
+        
+        // A function that draws all the lines 
+        // This function is only run once when the data is loaded
+        // Can måske med fordel bruge dette for at gøre kvaliteten bedre:
+        // https://github.com/spite/THREE.MeshLine
+        //var drawlines = function(){
+
+            // Loop over each gridshell
+            //for (var i = 0; i < mydata.length; i++) {
+
+                // Create a new group
+                //eval("var group" + i + "= new THREE.Group()"); 
+
+                // Loop over each beam element [k] in gridshell [i]
+                //for (var k = 0; k < mydata[i].beams.length; k++) {
+                    // Intialize geometry
+                    //var geometries = new THREE.Geometry();
+
+                    // Add the verticies to the geometry
+                    //geometries.vertices.push(new THREE.Vector3(mydata[i].beams[k].geo[0][0],mydata[i].beams[k].geo[0][1],mydata[i].beams[k].geo[0][2]),
+                    //    new THREE.Vector3(mydata[i].beams[k].geo[1][0],mydata[i].beams[k].geo[1][1],mydata[i].beams[k].geo[1][2]));
+                    //geometries.vertices.push(new THREE.Vector3(mydata[i].beams[k].geo[0][0],mydata[i].beams[k].geo[0][1],mydata[i].beams[k].geo[0][2]));
+                    //geometries.vertices.push(new THREE.Vector3(mydata[i].beams[k].geo[1][0],mydata[i].beams[k].geo[1][1],mydata[i].beams[k].geo[1][2]));
+
+                    // Create a line
+                    //var line = new THREE.LineSegments(geometries,linemat);             
+                    //var betterLine = new MeshLine();
+                    //betterLine.setPoints(geometries);
+                    // Add the lines to a group
+                    //eval("group"+i+".add(line)");
+                    //} 
+                    // Add the current gridshell to the group of gridshells
+                    //gridshellGroups.add(eval("group"+i))
+                //} 
+         // Add the group containing all gridshells to the scene
+         //scene.add(gridshellGroups);   
+        //}
+
+        // Function to update the colors of the lines if selected or not
+        // THERE IS A PROBLEM HERE IF THE DATA IS SORTED LATER, BECAUSE THEN THE INDICES WILL NOT MATCH 
+        //var updatePlot = function(){
+            // Loop over all gridshells
+            //for (var k = 0; k < mydata.length; k++) {
+                // Loop over each beam in the current gridshell
+                //for (var i = 0; i < mydata[k].beams.length; i++) {
+                    // If selected use the proper material
+                    // PROBLEM HERE!!!! NOT CHECKING IF THE RIGHT IS SELECTED
+                    // NEEDS TO INCORPOTATE THAT BEAM INDEX IS TESTED
+                    //let beamIndex = mydata[k].beams[i].ind;
+                   // if (mydata[k].beams[i].isSelected == true){
+                        
+                        // Get the actual beam index (this makes sure that even through the data is reordered, the correct element is still chosen)
+                        // Only works if the the order in how the elements are created actual corresponds to the element index!!!
+                        //gridshellGroups.children[k].children[beamIndex].material = linematSelected;
+                    //}
+                    // Else if not selected use proper material
+                   // else{
+                        //gridshellGroups.children[k].children[beamIndex].material = linemat;
+                    //}
+
+                    //if (mydata[k].active==false){
+                      //  gridshellGroups.children[k].children[beamIndex].visible = false;
+                    //}
+                    //else{
+                   //     gridshellGroups.children[k].children[beamIndex].visible = true;
+                    //}
+                //}   
+            //}
+            // Render the scene again
+            //renderer.render(scene,camera);
+        //}
+
+        // Define the orbit controls
+        //controls = new THREE.OrbitControls(camera,renderer.domElement);
+
+        // The function that does the animation
+        //var animate = function () {
+        //    resizeCanvasToDisplaySize();
+        //    requestAnimationFrame( animate );
+        //    renderer.render( scene, camera );
+            
+        //};
+        //animate();
+
+
+        /////////////////////////////////////////////////////
+        ////////////////      GRIDSTACK    //////////////////
+        /////////////////////////////////////////////////////
+
+        // Options to the gridstack
+        // Example i can chose what handles the dragging
+        var options = {
+            draggable: {
+                handle: '.draghandle',
+            }
+        };
+     
+        // Initialize the grid
+        var grid = GridStack.init(options);
+
+
+        // Function when a resize is called
+        grid.on('resizestop', function(event, el) {
+            updatePlot(); // Update 3d view
+            plots.forEach(function(plot){plot.updatePlot()})
+        });
+
+        // What happens when the add button is pressed
+        var AddButtonClicked = function(){
+            // Get a unique id using the time
+            let uniqueID = Date.now();
+
+            // Define new element to be added
+            let element = '<div class="grid-stack-item"><div class="draghandle"></div><div class="grid-stack-item-content justAdded" id=' +uniqueID+ '></div></div>';
+
+            // Add the element t0 the grid
+            grid.addWidget(element);
+
+            let options = {elementId: uniqueID, dataset:mydata};
+            window.rip = new ScatterPlotBars(options);
+
+            plots.push(window.rip);
+            
+            
+        }
+
+        
+        /////////////////////////////////////////////////////
+        ////////////////      OTHER        //////////////////
+        /////////////////////////////////////////////////////
+
+        var ResetButtonClicked = function(){
+            plots.forEach(function(plot){plot.updatePlot()});
+        }
+
+        // Function to update everything
+        var updateEverything = function(){
+            updatePlot(); // Update 3d view
+            plots.forEach(function(plot){plot.updatePlot()}); // updates all plots
+        }
+
+
+        /////////////////////////////////////////////////////
+        ////////////      CONTEXT MENU        ///////////////
+        /////////////////////////////////////////////////////
+        // This is a global value that stores the clicked element
+        var clickedElement;
+
+        // This is function that is run when a item in the context menu are clicked
+        var contextItemClicked = function(setThisAttribute,toThisVal){
+            // Set the new attribute
+            clickedElement[setThisAttribute] = toThisVal;
+            // Update the plot
+            clickedElement.updatePlot();  
+        }
+
+
+        
+
+
+    </script>
+</body>
+</html>
