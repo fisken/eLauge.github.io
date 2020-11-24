@@ -5,7 +5,7 @@ import { OrbitControls } from 'https://unpkg.com/three@0.122.0/examples/jsm/cont
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera( -1,1,1,-1,0.1,1000 );
 camera.zoom = 0.03;
-camera.position.z = 10;
+camera.position.z = 100;
 
 // Define a new renderer
 const canvas = document.getElementById("view3d");
@@ -57,6 +57,11 @@ window.initializePlot = function(){
 
     // Loop over every model 
     for (let k=0; k<mydata.length;k++){
+
+        // Get current color as RGB
+        //let r = hexToRgb(colors[k]).r;
+        //let g = hexToRgb(colors[k]).g;
+        //let b = hexToRgb(colors[k]).b;
 
 
         const panelGeometry = new THREE.BufferGeometry();
@@ -151,7 +156,7 @@ window.initializePlot = function(){
     scene.add(groupPoints);
     scene.add(groupPanels);
     renderer.render( scene, camera );
-    console.log(scene);
+    //console.log(scene);
 
 }
 
@@ -161,6 +166,12 @@ window.updatePlot = function(){
     // Loop over every model
     for (let k=0; k<mydata.length;k++){
 
+        // Get current color as RGB
+        let r = hexToRgb(colors[k]).r/255;
+        let g = hexToRgb(colors[k]).g/255;
+        let b = hexToRgb(colors[k]).b/255;
+
+        
         // If model is not active, then hide
         // Possible to skip to next "k" here?
         if (mydata[k].active == false){
@@ -179,7 +190,7 @@ window.updatePlot = function(){
         for (let i=0; i<mydata[k].panels.length;i++){
             if (mydata[k].panels[i].isSelected == true){
                 scene.children.forEach(function(child){if (child.name=="Panels"){
-                    child.children[k].geometry.attributes.color.array[i*3] = 255;
+                    child.children[k].geometry.attributes.color.array[i*3] = 0;
                     // If selected make sure that point is rendered the correct place
                     child.children[k].geometry.attributes.position.array[i*3] = mydata[k].panels[i].geo[0];
                 }})
@@ -197,7 +208,7 @@ window.updatePlot = function(){
         for (let i=0; i<mydata[k].nodes.length;i++){
             if (mydata[k].nodes[i].isSelected == true){
                 scene.children.forEach(function(child){if (child.name=="Points"){
-                    child.children[k].geometry.attributes.color.array[i*3] = 255;
+                    child.children[k].geometry.attributes.color.array[i*3] = 0;
                     // If selected make sure that point is rendered the correct place
                     child.children[k].geometry.attributes.position.array[i*3] = mydata[k].nodes[i].geo[0];
                 }})
@@ -219,14 +230,22 @@ window.updatePlot = function(){
             if (mydata[k].beams[i].isSelected == true){
                 scene.children.forEach(function(child){if (child.name=="Lines"){
                     //console.log(beamInd)
-                    child.children[k].geometry.attributes.color.array[beamInd*2*3] = 255;
-                    child.children[k].geometry.attributes.color.array[beamInd*2*3+3] = 255;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+0] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+1] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+2] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+3] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+4] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+5] = 0;
                 }})
             }
             else{
                 scene.children.forEach(function(child){if (child.name=="Lines"){
-                    child.children[k].geometry.attributes.color.array[beamInd*2*3] = 0;
-                    child.children[k].geometry.attributes.color.array[beamInd*2*3+3] = 0;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+0] = r;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+1] = g;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+2] = b;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+3] = r;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+4] = g;
+                    child.children[k].geometry.attributes.color.array[beamInd*2*3+5] = b;
                 }})
             }
         }
@@ -244,5 +263,22 @@ window.updatePlot = function(){
 }
 
 
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+      return r + r + g + g + b + b;
+    });
+  
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
 
-window.isInitializePlotReady = true;
+
+//window.isInitializePlotReady = true;
+
+

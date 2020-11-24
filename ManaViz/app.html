@@ -16,6 +16,7 @@
     <script src="BarChartModel.js"></script>
     <script src="ScatterPlotNodes.js"></script>
     <script src="ScatterPlotPanels.js"></script>
+    <script src="ScatterPlotModels.js"></script>
     <script type="module" src="ManaVizModel.js"></script>
 </head>
 <body> 
@@ -60,6 +61,11 @@
         <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
             <div class="draghandle"></div>
             <div id="plot6" class="grid-stack-item-content">
+            </div>
+        </div> 
+        <div class="grid-stack-item" data-gs-width="3" data-gs-height="2"> 
+            <div class="draghandle"></div>
+            <div id="plot7" class="grid-stack-item-content">
             </div>
         </div> 
     </div>
@@ -109,14 +115,18 @@
          // Obs på her om dataen når at loads før man gør ting og sager
          d3.json("ManaVizData.json").then(function(data) {
             mydata = data;
-            if (isInitializePlotReady == true){
-                initializePlot();
-            }
-            else{
-                console.log("initialize plot function is not ready")
-            }
-            //drawlines();
-            //renderer.render(scene,camera);
+     
+            var interval = setInterval(function() {
+                // get elem
+                if (typeof initializePlot == 'undefined') return;
+                clearInterval(interval);
+
+                // the rest of the code
+            }, 100);
+
+            initializePlot();
+            
+   
 
             plots.push(new ScatterPlotBars({elementId: "plot1", dataset:mydata}));
             plots.push(new LoadPathChart({elementId: "plot2", dataset:mydata}));
@@ -124,12 +134,13 @@
             plots.push(new BarChartModel({elementId: "plot4", dataset:mydata}));
             plots.push(new ScatterPlotNodes({elementId: "plot5", dataset:mydata}));
             plots.push(new ScatterPlotPanels({elementId: "plot6", dataset:mydata}));
+            plots.push(new ScatterPlotModels({elementId: "plot7", dataset:mydata}));
 
             
-
+            
             updateEverything();
             createRadioButtons();
-        });
+        })
         
         /////////////// THE GLOBAL COLOR SCHEME ///////////////////////
         colors = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"];

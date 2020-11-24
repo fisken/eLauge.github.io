@@ -341,8 +341,6 @@ class ScatterPlotBars extends IPlot{
 
 
 
-
-
     makeContextMenu(){
         // Make a reference to "this"
         let vis = this;
