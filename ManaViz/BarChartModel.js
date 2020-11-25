@@ -75,6 +75,10 @@ class BarChartModel extends IPlot{
             this.maxY = d3.max(this.data,function(d){if (d.active == true){return d[vis.yType][lc]}});
         }
 
+        
+        if (this.maxY == undefined){this.maxY = 0};
+    
+
         // Get the active models
         let xDomain = [];
         for (var i = 0; i<this.data.length;i++){

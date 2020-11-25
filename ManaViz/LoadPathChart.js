@@ -76,7 +76,7 @@ class LoadPathChart extends IPlot{
     getDomains(){
         let vis = this;
         // Finder maksimale længder
-        this.maxX = d3.max(vis.data,function(d) {return d3.sum(d.beams,d=>d.length)}); 
+        this.maxX = d3.max(vis.data,function(d) {if (d.active == true){return d3.sum(d.beams,d=>d.length)}}); 
         this.minX = 0;
 
         if (vis.yType=="force"){

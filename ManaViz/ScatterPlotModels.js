@@ -186,6 +186,11 @@ class ScatterPlotModels extends IPlot{
             this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.mass}});
         }
 
+        if (this.minY == undefined){this.minY = 0};
+        if (this.minX == undefined){this.minX = 0};
+        if (this.maxY == undefined){this.maxY = 0};
+        if (this.maxX == undefined){this.maxX = 0};
+
         
     }
 
