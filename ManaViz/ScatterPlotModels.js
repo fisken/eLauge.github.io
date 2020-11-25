@@ -145,45 +145,45 @@ class ScatterPlotModels extends IPlot{
   
 
         if (this.xType == "AxialEnergy"){
-            this.minX = d3.min(this.data,function(d){return d.AxialEnergy[lc]});
-            this.maxX = d3.max(this.data,function(d){return d.AxialEnergy[lc]});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d.AxialEnergy[lc]}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d.AxialEnergy[lc]}});
         }
         if (this.yType == "AxialEnergy"){
-            this.minY = d3.min(this.data,function(d){return d.AxialEnergy[lc]});
-            this.maxY = d3.max(this.data,function(d){return d.AxialEnergy[lc]});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d.AxialEnergy[lc]}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.AxialEnergy[lc]}});
         }
 
         if (this.xType == "BendingEnergy"){
-            this.minX = d3.min(this.data,function(d){return d.BendingEnergy[lc]});
-            this.maxX = d3.max(this.data,function(d){return d.BendingEnergy[lc]});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d.BendingEnergy[lc]}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d.BendingEnergy[lc]}});
         }
         if (this.yType == "BendingEnergy"){
-            this.minY = d3.min(this.data,function(d){return d.BendingEnergy[lc]});
-            this.maxY = d3.max(this.data,function(d){return d.BendingEnergy[lc]});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d.BendingEnergy[lc]}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.BendingEnergy[lc]}});
         }
         if (this.xType == "gammastiff"){
-            this.minX = d3.min(this.data,function(d){return d.gammastiff[lc]});
-            this.maxX = d3.max(this.data,function(d){return d.gammastiff[lc]});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d.gammastiff[lc]}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d.gammastiff[lc]}});
         }
         if (this.yType == "gammastiff"){
-            this.minY = d3.min(this.data,function(d){return d.gammastiff[lc]});
-            this.maxY = d3.max(this.data,function(d){return d.gammastiff[lc]});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d.gammastiff[lc]}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.gammastiff[lc]}});
         }
         if (this.xType == "TotalEnergy"){
-            this.minX = d3.min(this.data,function(d){return d.TotalEnergy[lc]});
-            this.maxX = d3.max(this.data,function(d){return d.TotalEnergy[lc]});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d.TotalEnergy[lc]}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d.TotalEnergy[lc]}});
         }
         if (this.yType == "TotalEnergy"){
-            this.minY = d3.min(this.data,function(d){return d.TotalEnergy[lc]});
-            this.maxY = d3.max(this.data,function(d){return d.TotalEnergy[lc]});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d.TotalEnergy[lc]}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.TotalEnergy[lc]}});
         }
         if (this.xType == "mass"){
-            this.minX = d3.min(this.data,function(d){return d.mass});
-            this.maxX = d3.max(this.data,function(d){return d.mass});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d.mass}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d.mass}});
         }
         if (this.yType == "mass"){
-            this.minY = d3.min(this.data,function(d){return d.mass});
-            this.maxY = d3.max(this.data,function(d){return d.mass});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d.mass}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d.mass}});
         }
 
         

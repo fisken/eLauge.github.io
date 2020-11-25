@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ManaViz</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@2.0.2/dist/gridstack.min.css" />
@@ -23,7 +23,7 @@
     
     <div id="buttons">
         <button onclick="AddButtonClicked()">Add</button>
-        <button onclick="ResetButtonClicked()">Reset</button>
+        <button onclick="ResetButtonClicked()">Update</button>
     </div>
 
     <div class="grid-stack">
@@ -72,6 +72,10 @@
 
 
     <script>
+        /////////////// THE GLOBAL COLOR SCHEME ///////////////////////
+        colors = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"];
+
+
         var createRadioButtons = function(){
             for (var i = 0; i < mydata.length; i++) {
                 const radioButton = document.createElement("input");
@@ -84,6 +88,7 @@
                 const label = document.createElement("label");
                 label.htmlFor = "Model "+i;
                 label.innerHTML = "Model "+i;
+                label.style.color = colors[i];
                 document.getElementById("buttons").appendChild(radioButton)
                 document.getElementById("buttons").appendChild(label)
             }
@@ -142,8 +147,6 @@
             createRadioButtons();
         })
         
-        /////////////// THE GLOBAL COLOR SCHEME ///////////////////////
-        colors = ["#4e79a7","#f28e2c","#e15759","#76b7b2","#59a14f","#edc949","#af7aa1","#ff9da7","#9c755f","#bab0ab"];
 
         // Define a global variable to hold ALL the plots
         // Used when every plots need an update

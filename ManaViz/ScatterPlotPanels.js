@@ -134,26 +134,26 @@ class ScatterPlotPanels extends IPlot{
         let lc = this.loadCase;
 
         if (this.xType == "area"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.panels,function(panel){return panel.area})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.panels,function(panel){return panel.area})}); 
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.panels,function(panel){return panel.area})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.panels,function(panel){return panel.area})}}); 
         }
 
         if (this.yType == "area"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.panels,function(panel){return panel.area})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.panels,function(panel){return panel.area})}); 
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.panels,function(panel){return panel.area})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.panels,function(panel){return panel.area})}}); 
         }
 
 
 
         // SHOULD ONLY GET SMALLEST VALUE OF ACTIVE DATA SETS
         if (this.xType == "planarity"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.panels,function(panel){return panel.planarity})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.panels,function(panel){return panel.planarity})});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.panels,function(panel){return panel.planarity})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.panels,function(panel){return panel.planarity})}});
         }
 
         if (this.yType == "planarity"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.panels,function(panel){return panel.planarity})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.panels,function(panel){return panel.planarity})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.panels,function(panel){return panel.planarity})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.panels,function(panel){return panel.planarity})}});  
         }
 
         

@@ -75,18 +75,18 @@ class ViolinChart extends IPlot{
        
 
         if (vis.yType=="force"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.maxForces[lc][yVal]})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.maxForces[lc][yVal]})});
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.maxForces[lc][yVal]})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.maxForces[lc][yVal]})}});
         }
 
         if (vis.yType=="axEnergy"){
-            this.maxY = d3.max(vis.data,function(d) {return d3.max(d.beams,d=>d.axialDefEnergy[vis.loadCase])})
-            this.minY = d3.min(vis.data,function(d) {return d3.min(d.beams,d=>d.axialDefEnergy[vis.loadCase])})
+            this.maxY = d3.max(vis.data,function(d) {if (d.active == true){return d3.max(d.beams,d=>d.axialDefEnergy[vis.loadCase])}})
+            this.minY = d3.min(vis.data,function(d) {if (d.active == true){return d3.min(d.beams,d=>d.axialDefEnergy[vis.loadCase])}})
         }
 
         if (vis.yType=="beEnergy"){
-            this.maxY = d3.max(vis.data,function(d) {return d3.max(d.beams,d=>d.bendingDefEnergy[vis.loadCase])})
-            this.minY = d3.min(vis.data,function(d) {return d3.min(d.beams,d=>d.bendingDefEnergy[vis.loadCase])})
+            this.maxY = d3.max(vis.data,function(d) {if (d.active == true){return d3.max(d.beams,d=>d.bendingDefEnergy[vis.loadCase])}})
+            this.minY = d3.min(vis.data,function(d) {if (d.active == true){return d3.min(d.beams,d=>d.bendingDefEnergy[vis.loadCase])}})
         }
 
         // Get the active models
@@ -265,7 +265,7 @@ class ViolinChart extends IPlot{
         yForceButton4.onclick = function(){vis.yType="force";  vis.yForce=4; vis.updatePlot()};
         yForceMenu.appendChild(yForceButton4);
         const yForceButton5 = document.createElement("menu");
-        yForceButton5.title = "My";
+        yForceButton5.title = "Mz";
         yForceButton5.onclick = function(){vis.yType="force";  vis.yForce=5; vis.updatePlot()};
         yForceMenu.appendChild(yForceButton5);
         const yForceButton7 = document.createElement("menu");

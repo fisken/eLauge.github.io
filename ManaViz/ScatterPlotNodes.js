@@ -3,9 +3,9 @@
 class ScatterPlotNodes extends IPlot{
     // The class will need to know what type needs to be plottet at each axis
     xType = "deformation";
-    yType = "torsion";
-    xForce = 0;
-    yForce = 4;
+    yType = "deformation";
+    xForce = 2;
+    yForce = 1;
     title = "Nodes"
 
     // The loadcase is needed in order to know which values to use
@@ -148,26 +148,26 @@ class ScatterPlotNodes extends IPlot{
         let yforce = this.yForce;
 
         if (this.xType == "torsion"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.nodes,function(node){return node.torsion})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.nodes,function(node){return node.torsion})}); 
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.nodes,function(node){return node.torsion})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.nodes,function(node){return node.torsion})}}); 
         }
 
         if (this.yType == "torsion"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.nodes,function(node){return node.torsion})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.nodes,function(node){return node.torsion})}); 
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.nodes,function(node){return node.torsion})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.nodes,function(node){return node.torsion})}}); 
         }
 
 
 
         // SHOULD ONLY GET SMALLEST VALUE OF ACTIVE DATA SETS
         if (this.xType == "deformation"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.nodes,function(node){return node.deformations[lc][xforce]})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.nodes,function(node){return node.deformations[lc][xforce]})});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.nodes,function(node){return node.deformations[lc][xforce]})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.nodes,function(node){return node.deformations[lc][xforce]})}});
         }
 
         if (this.yType == "deformation"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.nodes,function(node){return node.deformations[lc][yforce]})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.nodes,function(node){return node.deformations[lc][yforce]})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.nodes,function(node){return node.deformations[lc][yforce]})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.nodes,function(node){return node.deformations[lc][yforce]})}});  
         }
 
         

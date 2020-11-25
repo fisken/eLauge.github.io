@@ -80,18 +80,18 @@ class LoadPathChart extends IPlot{
         this.minX = 0;
 
         if (vis.yType=="force"){
-            this.maxY = d3.max(vis.data,function(d) {return d3.max(d.beams,d=>d.maxForces[vis.loadCase][vis.yForce])})
-            this.minY = d3.min(vis.data,function(d) {return d3.min(d.beams,d=>d.maxForces[vis.loadCase][vis.yForce])})
+            this.maxY = d3.max(vis.data,function(d) {if (d.active == true){return d3.max(d.beams,d=>d.maxForces[vis.loadCase][vis.yForce])}})
+            this.minY = d3.min(vis.data,function(d) {if (d.active == true){return d3.min(d.beams,d=>d.maxForces[vis.loadCase][vis.yForce])}})
         }
 
         if (vis.yType=="axEnergy"){
-            this.maxY = d3.max(vis.data,function(d) {return d3.max(d.beams,d=>d.axialDefEnergy[vis.loadCase])})
-            this.minY = d3.min(vis.data,function(d) {return d3.min(d.beams,d=>d.axialDefEnergy[vis.loadCase])})
+            this.maxY = d3.max(vis.data,function(d) {if (d.active == true){return d3.max(d.beams,d=>d.axialDefEnergy[vis.loadCase])}})
+            this.minY = d3.min(vis.data,function(d) {if (d.active == true){return d3.min(d.beams,d=>d.axialDefEnergy[vis.loadCase])}})
         }
 
         if (vis.yType=="beEnergy"){
-            this.maxY = d3.max(vis.data,function(d) {return d3.max(d.beams,d=>d.bendingDefEnergy[vis.loadCase])})
-            this.minY = d3.min(vis.data,function(d) {return d3.min(d.beams,d=>d.bendingDefEnergy[vis.loadCase])})
+            this.maxY = d3.max(vis.data,function(d) {if (d.active == true){return d3.max(d.beams,d=>d.bendingDefEnergy[vis.loadCase])}})
+            this.minY = d3.min(vis.data,function(d) {if (d.active == true){return d3.min(d.beams,d=>d.bendingDefEnergy[vis.loadCase])}})
         }
 
 

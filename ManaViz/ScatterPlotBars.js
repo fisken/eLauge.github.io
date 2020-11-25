@@ -155,40 +155,40 @@ class ScatterPlotBars extends IPlot{
         let yforce = this.yForce;
 
         if (this.xType == "kinkAngle"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.kinkAngle})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.kinkAngle})}); 
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.kinkAngle})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.kinkAngle})}}); 
         }
         if (this.yType == "kinkAngle"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.kinkAngle})});
-        this.maxY = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.kinkAngle})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.kinkAngle})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.kinkAngle})}});  
         }
 
         if (this.xType == "axEnergy"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.axialDefEnergy[lc]})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.axialDefEnergy[lc]})}); 
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.axialDefEnergy[lc]})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.axialDefEnergy[lc]})}}); 
         }
         if (this.yType == "axEnergy"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.axialDefEnergy[lc]})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.axialDefEnergy[lc]})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.axialDefEnergy[lc]})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.axialDefEnergy[lc]})}});  
         }
 
         if (this.xType == "beEnergy"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.bendingDefEnergy[lc]})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.bendingDefEnergy[lc]})}); 
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.bendingDefEnergy[lc]})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.bendingDefEnergy[lc]})}}); 
         }
         if (this.yType == "beEnergy"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.bendingDefEnergy[lc]})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.bendingDefEnergy[lc]})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.bendingDefEnergy[lc]})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.bendingDefEnergy[lc]})}});  
         }
 
         // SHOULD ONLY GET SMALLEST VALUE OF ACTIVE DATA SETS
         if (this.xType == "force"){
-            this.minX = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.maxForces[lc][xforce]})});
-            this.maxX = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.maxForces[lc][xforce]})});
+            this.minX = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.maxForces[lc][xforce]})}});
+            this.maxX = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.maxForces[lc][xforce]})}});
         }
         if (this.yType == "force"){
-            this.minY = d3.min(this.data,function(d){return d3.min(d.beams,function(beam){return beam.maxForces[lc][yforce]})});
-            this.maxY = d3.max(this.data,function(d){return d3.max(d.beams,function(beam){return beam.maxForces[lc][yforce]})});  
+            this.minY = d3.min(this.data,function(d){if (d.active == true){return d3.min(d.beams,function(beam){return beam.maxForces[lc][yforce]})}});
+            this.maxY = d3.max(this.data,function(d){if (d.active == true){return d3.max(d.beams,function(beam){return beam.maxForces[lc][yforce]})}});  
         }
 
         
