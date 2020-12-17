@@ -182,7 +182,8 @@ class ViolinChart extends IPlot{
             //.curve(d3.curveLinear)
 
         // Get the maximum number in the bins
-        var maxNum = d3.max(vis.data,function(d){return d3.max(histoChart(d.beams),function(d){return d.length})});
+        //var maxNum = d3.max(vis.data,function(d){return d3.max(histoChart(d.beams),function(d){return d.length})});
+        var maxNum = d3.max(vis.data,function(d){if (d.active == true){return d3.max(histoChart(d.beams),function(d){return d.length})}});
 
         // Define a new x-scale to make sure the violin charts does not exceed each other
         var xNum = d3.scaleLinear()

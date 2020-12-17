@@ -245,6 +245,7 @@ class ScatterPlotModels extends IPlot{
                 .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
                 .attr("fill",function(d){return colors[d.ind]})
                 .attr("r",function(d){return d.isSelected==true ? 6 : 4;})
+                .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
                 .attr("display",function(d){return d.active==false ? "none" : "block" })
         
         this.circles = this.chart.selectAll(".circle")
@@ -256,6 +257,7 @@ class ScatterPlotModels extends IPlot{
                 .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
                 .attr("fill",function(d){return colors[d.ind]})
                 .attr("r",function(d){return d.isSelected==true ? 6 : 4;})
+                .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
                 .attr("display",function(d){return d.active==false ? "none" : "block" })
         
     }

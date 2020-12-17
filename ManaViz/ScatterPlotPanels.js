@@ -5,6 +5,7 @@ class ScatterPlotPanels extends IPlot{
     xType = "area";
     yType = "planarity";
     title = "Panels"
+    drawConvexHulls = true;
     
 
     // The loadcase is needed in order to know which values to use
@@ -185,54 +186,65 @@ class ScatterPlotPanels extends IPlot{
 
         let vis = this;
 
-        // Loop over each gridshell
-        for (var i = 0; i < vis.data.length; i++) {
-
-            // If the current data set is active
-            if (vis.data[i].active == true){
-                // Select all the circle with the corresponding class and update the values
-                this.circles = this.chart.selectAll(".circle"+i)
-                    .data(this.data[i].panels,function(d){return d.ind;}) // Assign the data
-                        //.sort((a,b)=>d3.descending(a.ind,b.ind))
-                        .transition()
-                        //.attr("cx",function(d){return vis.xScale(d.deformations[vis.loadCase][vis.xForce]);})
-                        //.attr("cy",function(d){return vis.yScale(d.deformations[vis.loadCase][vis.yForce]);})
-                        .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
-                        .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
-                        .attr("fill",colors[i])
-                        .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
-                        
-
-                // Select all the circles with the corresponding values and update the circles entering
-                this.circles = this.chart.selectAll(".circle"+i)
-                        .data(vis.data[i].panels,function(d){return d.ind;})
-                        .enter()
-                            .append("circle")
-                                .attr("class","circle"+i)
-                                .transition()
-                                //.attr("cx",function(d){return vis.xScale(d.deformations[vis.loadCase][vis.xForce]);})
-                                //.attr("cy",function(d){return vis.yScale(d.deformations[vis.loadCase][vis.yForce]);})
-                                .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
-                                .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
-                                .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
-                                .attr("fill",colors[i]);
-            }
-            // If the current data set i NOT active
-            else{
-                this.circles = this.chart.selectAll(".circle"+i)
-                    .data(this.data[i].panels,function(d){return d.ind;}) 
-                        .transition()
-                        .attr("r",0)
-                        .remove();  
-            }
+        if (vis.drawConvexHulls == true){
+            vis.getConvexHull();
         }
-        
+        else{
+            // Loop over each gridshell
+            for (var i = 0; i < vis.data.length; i++) {
 
-         // What to do with the removed data
-         //this.circles = this.svg.selectAll("circle")
-         //   .data(this.data.beams)
-         //   .exit()
-         //   .remove();
+                // remove all polygons
+                vis.chart.selectAll(".polygon"+i)
+                    .remove()
+
+                // If the current data set is active
+                if (vis.data[i].active == true){
+                    // Select all the circle with the corresponding class and update the values
+                    this.circles = this.chart.selectAll(".circle"+i)
+                        .data(this.data[i].panels,function(d){return d.ind;}) // Assign the data
+                            //.sort((a,b)=>d3.descending(a.ind,b.ind))
+                            .transition()
+                            //.attr("cx",function(d){return vis.xScale(d.deformations[vis.loadCase][vis.xForce]);})
+                            //.attr("cy",function(d){return vis.yScale(d.deformations[vis.loadCase][vis.yForce]);})
+                            .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
+                            .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
+                            .attr("fill",colors[i])
+                            .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
+                            .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
+                            
+
+                    // Select all the circles with the corresponding values and update the circles entering
+                    this.circles = this.chart.selectAll(".circle"+i)
+                            .data(vis.data[i].panels,function(d){return d.ind;})
+                            .enter()
+                                .append("circle")
+                                    .attr("class","circle"+i)
+                                    .transition()
+                                    //.attr("cx",function(d){return vis.xScale(d.deformations[vis.loadCase][vis.xForce]);})
+                                    //.attr("cy",function(d){return vis.yScale(d.deformations[vis.loadCase][vis.yForce]);})
+                                    .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
+                                    .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
+                                    .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
+                                    .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
+                                    .attr("fill",colors[i]);
+                }
+                // If the current data set i NOT active
+                else{
+                    this.circles = this.chart.selectAll(".circle"+i)
+                        .data(this.data[i].panels,function(d){return d.ind;}) 
+                            .transition()
+                            .attr("r",0)
+                            .remove();  
+                }
+            }
+            
+
+            // What to do with the removed data
+            //this.circles = this.svg.selectAll("circle")
+            //   .data(this.data.beams)
+            //   .exit()
+            //   .remove();
+        }
     }
 
     // Function to initialize the brush
@@ -294,6 +306,59 @@ class ScatterPlotPanels extends IPlot{
         this.chart.select(".brush").call(this.brush);
     }
 
+    // Experimental function that draws the convex hull of a data set
+    getConvexHull(){
+        let vis = this;
+
+        // Loop over each gridshell
+        for (var i = 0; i < vis.data.length; i++) {
+
+            // remove all circles
+            this.circles = this.chart.selectAll(".circle"+i)
+                .data(this.data[i].panels,function(d){return d.ind;}) 
+                .remove();  
+
+            // If the current data set is active
+            if (vis.data[i].active == true){
+
+                var points = new Array(vis.data[i].panels.length);
+                for (var k = 0; k < vis.data[i].panels.length; k++) {
+                    points[k] = new Array(2);
+                    points[k][0] = vis.xScale(vis.getCorrectData("x",vis.data[i].panels[k]))
+                    points[k][1] = vis.yScale(vis.getCorrectData("y",vis.data[i].panels[k]))
+                }
+
+                var hull = d3.polygonHull(points);
+
+
+                // If does exist
+                vis.chart.selectAll(".polygon"+i)
+                    .data([hull])
+                    .transition()
+                    .attr("points",function(d){return d.map(function(d){return [d[0],d[1]].join(",")})})
+                    .attr("stroke",colors[i])
+                    .attr("stroke-width",1)
+                    .attr("fill","none")
+
+                // If does not exist
+                vis.chart.selectAll(".polygon"+i)
+                    .data([hull])
+                    .enter().append("polygon")
+                    .attr("class","polygon"+i)
+                    .attr("points",function(d){return d.map(function(d){return [d[0],d[1]].join(",")})})
+                    .attr("stroke",colors[i])
+                    .attr("stroke-width",1)
+                    .attr("fill","none")
+            }
+            else{
+                // remove
+                vis.chart.selectAll(".polygon"+i)
+                    .remove()
+            }
+        }
+
+    }
+
 
 
 
@@ -337,6 +402,22 @@ class ScatterPlotPanels extends IPlot{
         
         // Append the new menu to the context menu
         document.getElementById("cntx"+vis.elementId).appendChild(yForceMenu);
+
+         ////////////////////////////////////
+        // Create a new submenu for drawing type
+        ////////////////////////////////////
+        const drawMenu = document.createElement("menu");
+        drawMenu.title = "draw";
+        const drawMenuConvexHull = document.createElement("menu");
+        drawMenuConvexHull.title = "Hull";
+        drawMenuConvexHull.onclick = function(){vis.drawConvexHulls=true; vis.updatePlot()};
+        drawMenu.appendChild(drawMenuConvexHull);
+        const drawMenuPoints = document.createElement("menu");
+        drawMenuPoints.title = "Points";
+        drawMenuPoints.onclick = function(){vis.drawConvexHulls=false; vis.updatePlot()};
+        drawMenu.appendChild(drawMenuPoints);
+        // Append the new menu to the context menu
+        document.getElementById("cntx"+vis.elementId).appendChild(drawMenu);
 
 
     }

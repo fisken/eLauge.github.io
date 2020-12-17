@@ -110,7 +110,7 @@ class BarChartModel extends IPlot{
         this.chart.select(".yAxis")
                 .transition()
                 .duration(750)
-                .call(d3.axisLeft(this.yScale).ticks(5,d3.format(".1")));
+                .call(d3.axisLeft(this.yScale).ticks(5));
         this.chart.select(".xAxis")
                 .transition()
                 .duration(750)

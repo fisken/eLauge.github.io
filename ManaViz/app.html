@@ -13,6 +13,8 @@
     <script src="ScatterPlotBars.js"></script>
     <script src="LoadPathChart.js"></script>
     <script src="ViolinChart.js"></script>
+    <script src="ViolinChartNodes.js"></script>
+    <script src="ViolinChartPanels.js"></script>
     <script src="BarChartModel.js"></script>
     <script src="ScatterPlotNodes.js"></script>
     <script src="ScatterPlotPanels.js"></script>
@@ -135,7 +137,7 @@
                 initializePlot();
                 plots.push(new ScatterPlotBars({elementId: "plot1", dataset:mydata}));
                 plots.push(new LoadPathChart({elementId: "plot2", dataset:mydata}));
-                plots.push(new ViolinChart({elementId: "plot3", dataset:mydata}));
+                plots.push(new ViolinChartPanels({elementId: "plot3", dataset:mydata}));
                 plots.push(new BarChartModel({elementId: "plot4", dataset:mydata}));
                 plots.push(new ScatterPlotNodes({elementId: "plot5", dataset:mydata}));
                 plots.push(new ScatterPlotPanels({elementId: "plot6", dataset:mydata}));

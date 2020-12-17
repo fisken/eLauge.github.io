@@ -92,6 +92,8 @@ class IPlot{
         if (plottype=="ScatterPlotPanels"){plots.push(new ScatterPlotPanels(opts));};
         if (plottype=="ScatterPlotModels"){plots.push(new ScatterPlotModels(opts));};
         if (plottype=="ViolinChart"){plots.push(new ViolinChart(opts));};
+        if (plottype=="ViolinChartNodes"){plots.push(new ViolinChartNodes(opts));};
+        if (plottype=="ViolinChartPanels"){plots.push(new ViolinChartPanels(opts));};
         if (plottype=="LoadPathChart"){plots.push(new LoadPathChart(opts));};
         if (plottype=="BarChartModel"){plots.push(new BarChartModel(opts));};
     
@@ -144,6 +146,16 @@ class IPlot{
         violinChartButton.title = "ViolinChart";
         violinChartButton.onclick = function(){vis.changePlot("ViolinChart")};
 
+        // Button for violin chart nodes
+        const violinChartNodesButton = document.createElement("menu");
+        violinChartNodesButton.title = "ViolinChartNodes";
+        violinChartNodesButton.onclick = function(){vis.changePlot("ViolinChartNodes")};
+
+        // Button for violin chart nodes
+        const violinChartPanelsButton = document.createElement("menu");
+        violinChartPanelsButton.title = "ViolinChartPanels";
+        violinChartPanelsButton.onclick = function(){vis.changePlot("ViolinChartPanels")};
+
         // Button for loadpath chart
         const loadPathChartButton = document.createElement("menu");
         loadPathChartButton.title = "LoadPath";
@@ -160,6 +172,8 @@ class IPlot{
         typeButton.appendChild(scatterPlotPanelsButton);
         typeButton.appendChild(scatterPlotModelsButton);
         typeButton.appendChild(violinChartButton);
+        typeButton.appendChild(violinChartNodesButton);
+        typeButton.appendChild(violinChartPanelsButton);
         typeButton.appendChild(loadPathChartButton);
         typeButton.appendChild(barModelChartButton);
         

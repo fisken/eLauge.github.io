@@ -8,6 +8,7 @@ class ScatterPlotBars extends IPlot{
     title = "Bars";
     xForce = 0;
     yForce = 4;
+    drawConvexHulls = true;
 
     // The loadcase is needed in order to know which values to use
     loadCase = 0; 
@@ -100,6 +101,8 @@ class ScatterPlotBars extends IPlot{
         if (this.yType=="kinkAngle"){this.yLabel="kink angle"}
         if (this.xType=="axEnergy"){this.xLabel="Ax. Energy [kNm]"}
         if (this.xType=="beEnergy"){this.xLabel="Be. Energy [kNm]"}
+        if (this.yType=="axEnergy"){this.yLabel="Ax. Energy [kNm]"}
+        if (this.yType=="beEnergy"){this.yLabel="Be. Energy [kNm]"}
 
 
 
@@ -231,51 +234,55 @@ class ScatterPlotBars extends IPlot{
     updateData(){
         let vis = this;
 
-        // Loop over each gridshell
-        for (var i = 0; i < vis.data.length; i++) {
+        if (vis.drawConvexHulls == true){
+            vis.getConvexHull();
+        }
+        else{
+            // Loop over each gridshell
+            for (var i = 0; i < vis.data.length; i++) {
+                
+                // remove all polygons
+                vis.chart.selectAll(".polygon"+i)
+                    .remove()
 
-            // If the current data set is active
-            if (vis.data[i].active == true){
-                // Select all the circle with the corresponding class and update the values
-                this.circles = this.chart.selectAll(".circle"+i)
-                    .data(this.data[i].beams,function(d){return d.ind;}) // Assign the data
-                        //.sort((a,b)=>d3.descending(a.ind,b.ind))
-                        .transition()
-                        .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
-                        .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
-                        .attr("fill",colors[i])
-                        .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
-                        
+                // If the current data set is active
+                if (vis.data[i].active == true){
+                    // Select all the circle with the corresponding class and update the values
+                    this.circles = this.chart.selectAll(".circle"+i)
+                        .data(this.data[i].beams,function(d){return d.ind;}) // Assign the data
+                            //.sort((a,b)=>d3.descending(a.ind,b.ind))
+                            .transition()
+                            .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
+                            .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
+                            .attr("fill",colors[i])
+                            .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
+                            .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
+                            
 
-                // Select all the circles with the corresponding values and update the circles entering
-                this.circles = this.chart.selectAll(".circle"+i)
-                        .data(vis.data[i].beams,function(d){return d.ind;})
-                        .enter()
-                            .append("circle")
-                                .attr("class","circle"+i)
-                                .transition()
-                                //.attr("cx",function(d){return vis.xScale(d.maxForces[vis.loadCase][vis.xForce]);})
-                                .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
-                                .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
-                                .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
-                                .attr("fill",colors[i]);
-            }
-            // If the current data set i NOT active
-            else{
-                this.circles = this.chart.selectAll(".circle"+i)
-                    .data(this.data[i].beams,function(d){return d.ind;}) 
-                        .transition()
-                        .attr("r",0)
-                        .remove();  
+                    // Select all the circles with the corresponding values and update the circles entering
+                    this.circles = this.chart.selectAll(".circle"+i)
+                            .data(vis.data[i].beams,function(d){return d.ind;})
+                            .enter()
+                                .append("circle")
+                                    .attr("class","circle"+i)
+                                    .transition()
+                                    //.attr("cx",function(d){return vis.xScale(d.maxForces[vis.loadCase][vis.xForce]);})
+                                    .attr("cx",function(d){return vis.xScale(vis.getCorrectData("x",d));})
+                                    .attr("cy",function(d){return vis.yScale(vis.getCorrectData("y",d));})
+                                    .attr("r",function(d){return d.isSelected==true ? 4 : 2;})
+                                    .attr("stroke",function(d){return d.isSelected==true ? "black" : "none";})
+                                    .attr("fill",colors[i]);
+                }
+                // If the current data set i NOT active
+                else{
+                    this.circles = this.chart.selectAll(".circle"+i)
+                        .data(this.data[i].beams,function(d){return d.ind;}) 
+                            .transition()
+                            .attr("r",0)
+                            .remove();  
+                }
             }
         }
-        
-
-         // What to do with the removed data
-         //this.circles = this.svg.selectAll("circle")
-         //   .data(this.data.beams)
-         //   .exit()
-         //   .remove();
     }
 
     // Function to initialize the brush
@@ -305,6 +312,7 @@ class ScatterPlotBars extends IPlot{
                 [[x0, y0], [x1, y1]] = selection;
             }
             // Finder det data som jeg har berørt
+            // I could do so only active data is checked. This might speed up the calculations
             for (var i = 0; i < vis.data.length; i++) {
                 const brushedNodes = vis.data[i].beams.filter(d=>vis.xScale(vis.getCorrectData("x",d))>=x0 &&
                                                     vis.xScale(vis.getCorrectData("x",d))<=x1 &&
@@ -331,6 +339,7 @@ class ScatterPlotBars extends IPlot{
             }
     }
 
+    // This function updates the brush to match new dimensions
     updateBrush(){
         // Set new brush extent
         this.brush.extent([[0,0],[this.width,this.height]]);
@@ -339,8 +348,61 @@ class ScatterPlotBars extends IPlot{
         this.chart.select(".brush").call(this.brush);
     }
 
+    // Experimental function that draws the convex hull of a data set
+    getConvexHull(){
+        let vis = this;
+
+        // Loop over each gridshell
+        for (var i = 0; i < vis.data.length; i++) {
+
+            // remove all circles
+            this.circles = this.chart.selectAll(".circle"+i)
+                .data(this.data[i].beams,function(d){return d.ind;}) 
+                .remove();  
+
+            // If the current data set is active
+            if (vis.data[i].active == true){
+
+                var points = new Array(vis.data[i].beams.length);
+                for (var k = 0; k < vis.data[i].beams.length; k++) {
+                    points[k] = new Array(2);
+                    points[k][0] = vis.xScale(vis.getCorrectData("x",vis.data[i].beams[k]))
+                    points[k][1] = vis.yScale(vis.getCorrectData("y",vis.data[i].beams[k]))
+                }
+
+                var hull = d3.polygonHull(points);
 
 
+                // If does exist
+                vis.chart.selectAll(".polygon"+i)
+                    .data([hull])
+                    .transition()
+                    .attr("points",function(d){return d.map(function(d){return [d[0],d[1]].join(",")})})
+                    .attr("stroke",colors[i])
+                    .attr("stroke-width",1)
+                    .attr("fill","none")
+
+                // If does not exist
+                vis.chart.selectAll(".polygon"+i)
+                    .data([hull])
+                    .enter().append("polygon")
+                    .attr("class","polygon"+i)
+                    .attr("points",function(d){return d.map(function(d){return [d[0],d[1]].join(",")})})
+                    .attr("stroke",colors[i])
+                    .attr("stroke-width",1)
+                    .attr("fill","none")
+            }
+            else{
+                // remove
+                vis.chart.selectAll(".polygon"+i)
+                    .remove()
+            }
+        }
+
+    }
+
+
+    // This functions creates the context menu
     makeContextMenu(){
         // Make a reference to "this"
         let vis = this;
@@ -374,7 +436,7 @@ class ScatterPlotBars extends IPlot{
         xForceButton4.onclick = function(){vis.xForce=4; vis.xType="force";  vis.updatePlot()};
         xForceMenu.appendChild(xForceButton4);
         const xForceButton5 = document.createElement("menu");
-        xForceButton5.title = "My";
+        xForceButton5.title = "Mz";
         xForceButton5.onclick = function(){vis.xForce=5; vis.xType="force";  vis.updatePlot()};
         xForceMenu.appendChild(xForceButton5);
         const xForceButton6 = document.createElement("menu");
@@ -435,6 +497,22 @@ class ScatterPlotBars extends IPlot{
         yForceMenu.appendChild(yForceButton8);
         // Append the new menu to the context menu
         document.getElementById("cntx"+vis.elementId).appendChild(yForceMenu);
+
+        ////////////////////////////////////
+        // Create a new submenu for drawing type
+        ////////////////////////////////////
+        const drawMenu = document.createElement("menu");
+        drawMenu.title = "draw";
+        const drawMenuConvexHull = document.createElement("menu");
+        drawMenuConvexHull.title = "Hull";
+        drawMenuConvexHull.onclick = function(){vis.drawConvexHulls=true; vis.updatePlot()};
+        drawMenu.appendChild(drawMenuConvexHull);
+        const drawMenuPoints = document.createElement("menu");
+        drawMenuPoints.title = "Points";
+        drawMenuPoints.onclick = function(){vis.drawConvexHulls=false; vis.updatePlot()};
+        drawMenu.appendChild(drawMenuPoints);
+        // Append the new menu to the context menu
+        document.getElementById("cntx"+vis.elementId).appendChild(drawMenu);
 
 
     }
