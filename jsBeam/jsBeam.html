@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsBeam</title>
+    <script src="numeric.js" defer></script>
+    <script src="https://unpkg.com/mathjs@9.4.4/lib/browser/math.js" defer></script> 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7" defer></script>
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <!-- <script type="module" src="jsBeamModel.js"></script>
+    <script type="module" src="Support.js"></script>   -->
+    <!-- <script src="FixedSupport.js"></script>   -->
+    <!-- <script src="PinnedSupport.js"></script>  -->
+    <!-- <script src="PinnedRollerSupport.js"></script>  -->
+    <!-- <script type="module" src="Load.js"></script>   
+    <script type="module" src="PointLoad.js"></script> -->
+    <!-- <script src="Node.js"></script>    -->
+    <!-- <script type="module" src="DistributedLoad.js"></script>
+    <script type="module" src="plots.js"></script>
+    <script type="module" src="drawBeam.js"></script>
+    <script type="module" src="beamElement.js"></script>
+    <script type="module" src="LoadCase.js"></script> -->
+    <!-- <script src="LoadCombination.js"></script> -->
+    <!-- <script src="pointLoadTable.js"></script> -->
+    <script type="module" src="bundle.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="Header">
+            <h1>jsBeam 0.01</h1>
+        </div>
+        <div class="Input">
+            <table id="beamInput">
+                <thead>
+                    <tr>
+                        <th colspan="3">Beam input</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>L = </td>
+                    <td>
+                        <input type="text" v-model.lazy="length">
+                    </td>
+                    <td>mm</td>
+                </tr>
+                <tr>
+                    <td>E = </td>
+                    <td>
+                        <input type="text" value="210000">
+                    </td>
+                    <td>MPa</td>            
+                </tr>
+                <tr>
+                    <td>I = </td>
+                    <td>
+                        <input type="text" value="204">
+                    </td>
+                    <td>10<sup>6</sup>mm<sup>4</sup></td>            
+                </tr>
+                <tr>
+                    <td>n = </td>
+                    <td>
+                        <input type="text" v-model.lazy="numDivisions"/>
+                    </td>
+                    <td>-</td> 
+                </tr>
+                <tr>
+                    <td>Plots</td>
+                    <td colspan="2">
+                        <input type="checkbox" id="V" name="V" v-model="showV">
+                        <label for="V">V</label>
+                        <input type="checkbox" id="M" name="M" v-model="showM">
+                        <label for="M">M</label>
+                        <input type="checkbox" id="theta" name="theta" v-model="showTheta"/>
+                        <label for="theta">&#952</label>
+                        <input type="checkbox" id="u" name="u" v-model="showU">
+                        <label for="u">u</label>
+                    </td>
+                </tr>
+            </table>
+            <table id="supTable">
+                <thead>
+                    <tr><th colspan="3">Supports</th></tr>
+                    <tr>
+                        <th>x [mm]</th>
+                        <th>type</th>
+                        <th>
+                            <i @click="addSupport" class="fa fa-plus delButton"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row,index) in supports">
+                        <td>
+                            <input type="text" v-model.lazy="row.position"></input>
+                        </td>
+                        <td>
+                            <select v-model="row.type">
+                                <option value="Pinned">Pinned</option>
+                                <option value="Fixed">Fixed</option>
+                                <option value="Roller">Roller</option>
+                            </select>
+                        </td>
+                        <td>
+                            <i @click="delSupport(index)" class="fa fa-trash delButton" ></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="lcTable">
+                <thead>
+                    <tr>
+                        <th colspan="3">Load cases</th>
+                    </tr>
+                    <tr>
+                        <th>Active</th>
+                        <th>id</th>
+                        <th>
+                            <i @click="addLC" class="fa fa-plus delButton"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row,index) in loadCases">
+                        <td>
+                            <input type="radio" name="loadcase" v-bind:id=index v-bind:value=index v-model="lc" @click="tester"/>
+                            <label for="index">{{index}}</label>
+                        </td>
+                        <td>
+                            <input type="text" v-model="row.id"></input>
+                        </td>
+                        <td>
+                            <i @click="delLC(index)" class="fa fa-trash delButton" ></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table id="pointLoadTable">
+                <thead>
+                    <tr>
+                        <th colspan="4">Point Loads</th>
+                    </tr>
+                    <tr>
+                        <th>x [mm]</th>
+                        <th>F [N]</th>
+                        <th>M [Nmm]</th>
+                        <th>
+                            <i @click="addPointLoad" class="fa fa-plus delButton"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row,index) in ptLoads">
+                    <td>
+                        <input type="text" v-model.lazy="row.x[0]"></input>
+                    </td>
+                    <td>
+                        <input type="text" v-model.lazy="row.appliedForce"></input>
+                    </td>
+                    <td>
+                        <input type="text" v-model.lazy="row.appliedMoment"></input>
+                    </td>
+                    <td>
+                        <i @click="delPointLoad(index)" class="fa fa-trash delButton" ></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <table id="dispLoadTable">
+                <thead>
+                    <tr>
+                        <th colspan="5">Distributed loads</th>
+                    </tr>
+                    <tr>
+                        <th>x0 [mm]</th>
+                        <th>x1 [mm]</th>
+                        <th>p0 [kN/m]</th>
+                        <th>p1 [kN/m]</th>
+                        <th>
+                            <i @click="addDispLoad" class="fa fa-plus delButton"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row,index) in dispLoads">
+                        <td>
+                          <input type="text" v-model.lazy="row.x0"></input>
+                        </td>
+                        <td>
+                          <input type="text" v-model.lazy="row.x1"></input>
+                        </td>
+                        <td>
+                          <input type="text" v-model.lazy="row.p0"></input>
+                        </td>
+                        <td>
+                          <input type="text" v-model.lazy="row.p1"></input>
+                        </td>
+                        <td>
+                          <i @click="delDispLoad(index)" class="fa fa-trash delButton" ></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="Results">
+            <div id="beam_plot"></div>
+            <transition name="slide-fade">
+                <div id="chart_V" v-show="showV"></div>
+            </transition>
+            <transition name="slide-fade">
+                <div id="chart_M" v-show="showM"></div>
+            </transition>
+            <transition name="slide-fade">
+                <div id="chart_theta" v-show="showTheta"></div>
+            </transition>
+            <transition name="slide-fade">
+                <div id="chart_u" v-show="showU"></div>
+            </transition>
+        </div>
+      </div>
+</body>
+</html>
