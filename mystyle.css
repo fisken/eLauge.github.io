@@ -1,0 +1,79 @@
+.container {
+    display: grid;
+    grid-auto-columns: 280px 1fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "Header Header"
+      "Input Results";
+}
+  
+.Header { 
+    grid-area: Header; 
+    background-color: lightgrey;
+}
+  
+.Input { 
+    grid-area: Input; 
+    background-color: white;
+    border-right: 0px gray dashed;
+    padding-right: 2px;
+}
+  
+.Results {
+    grid-area: Results; 
+    width: calc(90vw - 280px)
+}
+  
+
+
+
+
+h1 {
+    font-size: 16px;
+    text-align: center;
+}
+
+
+table {
+  font-size: 12px;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+th, td {
+  padding: 0.25rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+tbody tr:nth-child(odd) {
+  background: #eee;
+}
+td input[type=text]{
+  box-sizing: border-box;
+  width: 100%
+}
+
+.delButton:hover{
+  color: blue;
+  cursor: pointer;
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+        
+.errorMessage{
+  color: red;
+}
