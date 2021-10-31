@@ -8,13 +8,19 @@
       "Header Header"
       "Input Results";
 }
+
+body{
+  margin:0px;
+}
   
 .Header { 
-    grid-area: Header; 
-    background-color: lightgrey;
+  grid-area: Header; 
+  background-color: white;
+  border-bottom: lightgray solid 1.5px;
 }
   
 .Input { 
+  margin-left: 8px;
     grid-area: Input; 
     background-color: white;
     border-right: 0px gray dashed;
@@ -23,7 +29,11 @@
   
 .Results {
     grid-area: Results; 
-    width: calc(90vw - 280px)
+    width: calc(90vw - 240px)
+}
+
+#beam_plot{
+  margin-top: 4px;
 }
   
 
@@ -38,18 +48,26 @@ h1 {
 
 table {
   font-size: 12px;
-  border-collapse: collapse;
+  border-collapse: separate;
   width: 100%;
   margin-top: 10px;
+  border: lightgray solid 1px;
+  border-radius: 5px;
+  border-spacing: 0px;
 }
 th, td {
   padding: 0.25rem;
   text-align: center;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
+  /* border-top: black solid 1px; */
 }
-tbody tr:nth-child(odd) {
+tbody td{
+  border-top: lightgray solid 1px;
+}
+tbody tr:hover{
   background: #eee;
 }
+
 td input[type=text]{
   box-sizing: border-box;
   width: 100%
@@ -76,4 +94,47 @@ td input[type=text]{
         
 .errorMessage{
   color: red;
+}
+
+/* Styling the text of the point loads in the beam plot */
+.ptLoadTx, .dispLoad1Tx, .dispLoad2Tx{
+  text-anchor: middle;
+  transform: translateY(-2px);
+}
+
+/* Styling the text of the supports in the beam plot */
+.supText{
+  text-anchor: middle;
+  transform: translateY(10px);
+}
+
+/* Styling the maximum and minimum values of the diagram plots */
+.maxValM{
+  text-anchor: middle;
+  transform: translateY(10px);
+}
+.minValM{
+  text-anchor: middle;
+  transform: translateY(-1px);
+}
+.maxValV,.maxValu,.maxValtheta{
+  text-anchor: middle;
+  transform: translateY(-1px);
+}
+.minValV,.minValu,.minValtheta{
+  text-anchor: middle;
+  transform: translateY(10px);
+}
+
+/* Support arrows colors */
+.supLine, .supMomentArrow{
+  stroke: #4e79a7;
+}
+#arrowHeadSup, #momentArrow{
+  fill: #4e79a7;
+}
+
+.dispLoad1Arrow, .dispLoad2Arrow, .dispLoad3, #arrowHead, .ptLoadArrow{
+  stroke: #e15759;
+  fill: #e15759;
 }

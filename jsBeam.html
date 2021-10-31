@@ -30,7 +30,7 @@
 <body>
     <div class="container">
         <div class="Header">
-            <h1>jsBeam 0.01</h1>
+            <h1>jsBeam 0.02</h1>
         </div>
         <div class="Input">
             <table id="beamInput">
@@ -52,14 +52,14 @@
                 <tr>
                     <td>E = </td>
                     <td>
-                        <input type="text" value="210000">
+                        <input type="text" v-model.lazy="model.youngsModulus">
                     </td>
                     <td>MPa</td>            
                 </tr>
                 <tr>
                     <td>I = </td>
                     <td>
-                        <input type="text" value="204">
+                        <input type="text" v-model.lazy="model.inputMomentOfInertia">
                     </td>
                     <td>10<sup>6</sup>mm<sup>4</sup></td>            
                 </tr>
@@ -120,7 +120,7 @@
                     </tr>
                     <tr>
                         <th>Active</th>
-                        <th>id</th>
+                        <th>Name</th>
                         <th>
                             <i @click="addLC" class="fa fa-plus delButton"></i>
                         </th>
@@ -144,12 +144,12 @@
             <table id="pointLoadTable">
                 <thead>
                     <tr>
-                        <th colspan="4">Point Loads</th>
+                        <th colspan="4">Point loads</th>
                     </tr>
                     <tr>
                         <th>x [mm]</th>
-                        <th>F [N]</th>
-                        <th>M [Nmm]</th>
+                        <th>F [kN]</th>
+                        <th>M [kNm]</th>
                         <th>
                             <i @click="addPointLoad" class="fa fa-plus delButton"></i>
                         </th>
@@ -161,10 +161,10 @@
                         <input type="text" v-model.lazy="row.x[0]"></input>
                     </td>
                     <td>
-                        <input type="text" v-model.lazy="row.appliedForce"></input>
+                        <input type="text" v-model.lazy="row.inputForce"></input>
                     </td>
                     <td>
-                        <input type="text" v-model.lazy="row.appliedMoment"></input>
+                        <input type="text" v-model.lazy="row.inputMoment"></input>
                     </td>
                     <td>
                         <i @click="delPointLoad(index)" class="fa fa-trash delButton" ></i>
@@ -178,10 +178,10 @@
                         <th colspan="5">Distributed loads</th>
                     </tr>
                     <tr>
-                        <th>x0 [mm]</th>
-                        <th>x1 [mm]</th>
-                        <th>p0 [kN/m]</th>
-                        <th>p1 [kN/m]</th>
+                        <th>x<sub>0</sub> [mm]</th>
+                        <th>x<sub>1</sub> [mm]</th>
+                        <th>p<sub>0</sub> [kN/m]</th>
+                        <th>p<sub>1</sub> [kN/m]</th>
                         <th>
                             <i @click="addDispLoad" class="fa fa-plus delButton"></i>
                         </th>
