@@ -1,35 +1,48 @@
 .container {
-    display: grid;
-    grid-auto-columns: 280px 1fr;
-    grid-template-rows: 0.2fr 1.8fr;
+    display: grid; 
+    grid-auto-columns: 280px calc(100vw - 280px);
+    /* grid-template-rows: 0.2fr 1.8fr; */
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
       "Header Header"
-      "Input Results";
+      "Input Results"
+      "Footer Footer";
 }
 
 body{
   margin:0px;
+  overflow-x: hidden;
+  /* Fixes that the horizontal scrollbar appears when dont wanted - might create problems moving forward */
 }
   
 .Header { 
   grid-area: Header; 
   background-color: white;
   border-bottom: lightgray solid 1.5px;
+  text-align: center;   /* Centering */
 }
   
 .Input { 
   margin-left: 8px;
-    grid-area: Input; 
-    background-color: white;
-    border-right: 0px gray dashed;
-    padding-right: 2px;
+  grid-area: Input; 
+  background-color: white;
+  border-right: 0px gray dashed;
+  padding-right: 2px;
 }
   
 .Results {
-    grid-area: Results; 
-    width: calc(90vw - 240px)
+  grid-area: Results; 
+  /* width: calc(90vw - 240px) */
+  width: calc(100% - 20px);
+}
+
+.Footer {
+  grid-area: Footer;
+  margin: 8px;
+  border-top: lightgray solid 1.0px;
+  text-align: center;
+
 }
 
 #beam_plot{
@@ -134,7 +147,10 @@ td input[type=text]{
   fill: #4e79a7;
 }
 
-.dispLoad1Arrow, .dispLoad2Arrow, .dispLoad3, #arrowHead, .ptLoadArrow{
+.dispLoad1Arrow, .dispLoad2Arrow, .dispLoad3, #arrowHead, .ptLoadArrow, #momentArrowLoad{
   stroke: #e15759;
   fill: #e15759;
+}
+.ptMArrow{
+  stroke: #e15759;
 }

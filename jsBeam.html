@@ -30,7 +30,9 @@
 <body>
     <div class="container">
         <div class="Header">
-            <h1>jsBeam 0.03</h1>
+            <i class="fa fa-download delButton" onclick="saveFile()"></i>
+            <i class="fa fa-upload delButton" onclick="loadFile()"></i>
+            <h1 style="display:inline-block">jsBeam 0.04</h1>
         </div>
         <div class="Input">
             <table id="beamInput">
@@ -42,7 +44,7 @@
                 <tr>
                     <td>L = </td>
                     <td>
-                        <input type="text" v-model.lazy="length">
+                        <input type="text" v-model.lazy="model.length">
                     </td>
                     <td>mm</td>
                 </tr>
@@ -96,7 +98,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(row,index) in supports">
+                    <tr v-for="(row,index) in model.supports">
                         <td>
                             <input type="text" v-model.lazy="row.position"></input>
                         </td>
@@ -127,7 +129,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(row,index) in loadCases">
+                    <tr v-for="(row,index) in model.loadCases">
                         <td>
                             <input type="radio" name="loadcase" v-bind:id=index v-bind:value=index v-model="lc" @click="tester"/>
                             <label for="index">{{index}}</label>
@@ -156,7 +158,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(row,index) in ptLoads">
+                  <tr v-for="(row,index) in model.ptLoads">
                     <td>
                         <input type="text" v-model.lazy="row.x[0]"></input>
                     </td>
@@ -188,7 +190,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(row,index) in dispLoads">
+                    <tr v-for="(row,index) in model.dispLoads">
                         <td>
                           <input type="text" v-model.lazy="row.x0"></input>
                         </td>
@@ -222,6 +224,9 @@
             <transition name="slide-fade">
                 <div id="chart_u" v-show="showU"></div>
             </transition>
+        </div>
+        <div class="Footer">
+            <small>Use at your own risk</small>
         </div>
       </div>
 </body>
