@@ -7,7 +7,7 @@
     <script src="numeric.js" defer></script>
     <script src="https://unpkg.com/mathjs@9.4.4/lib/browser/math.js" defer></script> 
     <script src="https://cdn.jsdelivr.net/npm/d3@7" defer></script>
-    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="https://unpkg.com/vue@3.4.5/dist/vue.global.prod.js" defer></script>
     <!-- <script type="module" src="jsBeamModel.js"></script>
     <script type="module" src="Support.js"></script>   -->
     <!-- <script src="FixedSupport.js"></script>   -->
@@ -32,7 +32,7 @@
         <div class="Header">
             <i class="fa fa-download delButton" onclick="saveFile()"></i>
             <i class="fa fa-upload delButton" onclick="loadFile()"></i>
-            <h1 style="display:inline-block">jsBeam 0.04</h1>
+            <h1 style="display:inline-block">jsBeam 0.05</h1>
         </div>
         <div class="Input">
             <table id="beamInput">
@@ -100,7 +100,7 @@
                 <tbody>
                     <tr v-for="(row,index) in model.supports">
                         <td>
-                            <input type="text" v-model.lazy="row.position"></input>
+                            <input type="text" v-model.lazy="row.positionInput"></input>
                         </td>
                         <td>
                             <select v-model="row.type">
@@ -135,7 +135,7 @@
                             <label for="index">{{index}}</label>
                         </td>
                         <td>
-                            <input type="text" v-model="row.id"></input>
+                            <input type="text" v-model.lazy="row.id"></input>
                         </td>
                         <td>
                             <i @click="delLC(index)" class="fa fa-trash delButton" ></i>
@@ -160,7 +160,7 @@
                 <tbody>
                   <tr v-for="(row,index) in model.ptLoads">
                     <td>
-                        <input type="text" v-model.lazy="row.x[0]"></input>
+                        <input type="text" v-model.lazy="row.positionInput"></input>
                     </td>
                     <td>
                         <input type="text" v-model.lazy="row.inputForce"></input>
@@ -192,10 +192,10 @@
                 <tbody>
                     <tr v-for="(row,index) in model.dispLoads">
                         <td>
-                          <input type="text" v-model.lazy="row.x0"></input>
+                          <input type="text" v-model.lazy="row.x0Input"></input>
                         </td>
                         <td>
-                          <input type="text" v-model.lazy="row.x1"></input>
+                          <input type="text" v-model.lazy="row.x1Input"></input>
                         </td>
                         <td>
                           <input type="text" v-model.lazy="row.p0"></input>
